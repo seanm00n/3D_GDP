@@ -7,8 +7,10 @@ public class PlayerCtrl : MonoBehaviour
 {
     private float h = 0.0f;
     private float v = 0.0f;
+    
     private Transform tr;
-    public float moveSpeed = 1.0f;
+    public float moveSpeed = 10.0f;
+    private float rotSpeed = 100.0f;
 
     void Start()
     {
@@ -22,8 +24,7 @@ public class PlayerCtrl : MonoBehaviour
         Debug.Log("h" + h.ToString());
         Debug.Log("v" + h.ToString());
         Vector3 moveDir = (Vector3.forward*v) + (Vector3.right*h);
-        //tr.Translate(Vector3.forward * moveSpeed * v * Time.deltaTime, Space.Self);
-        //tr.Translate(Vector3.right * moveSpeed * h * Time.deltaTime, Space.Self);
         tr.Translate(moveDir.normalized * Time.deltaTime * moveSpeed, Space.Self);
+        tr.Rotate(Vector3.up * Time.deltaTime * rotSpeed * Input.GetAxis("Mouse X"));
     }
 }
