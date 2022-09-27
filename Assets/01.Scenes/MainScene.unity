@@ -466,9 +466,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTr: {fileID: 458176377}
-  dist: 10
+  dist: 3
   height: 3
   dampTraec: 20
+  targetHeight: 2
 --- !u!1 &398627235
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,7 +613,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c3530cd722c0f4cbedf22eca5face1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
 --- !u!1 &1459522649
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,7 +833,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11100000, guid: df1f47a0a2effe74488d5da197295a19, type: 3}
       propertyPath: m_PlayAutomatically
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df1f47a0a2effe74488d5da197295a19, type: 3}
