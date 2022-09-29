@@ -613,6 +613,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c3530cd722c0f4cbedf22eca5face1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim:
+    Idle: {fileID: -3100369314251171874, guid: df1f47a0a2effe74488d5da197295a19, type: 3}
+    runForward: {fileID: 7400002, guid: df1f47a0a2effe74488d5da197295a19, type: 3}
+    runBackward: {fileID: 7400004, guid: df1f47a0a2effe74488d5da197295a19, type: 3}
+    runRight: {fileID: 7400006, guid: df1f47a0a2effe74488d5da197295a19, type: 3}
+    runLeft: {fileID: 7400008, guid: df1f47a0a2effe74488d5da197295a19, type: 3}
 --- !u!1 &1459522649
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,7 +839,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11100000, guid: df1f47a0a2effe74488d5da197295a19, type: 3}
       propertyPath: m_PlayAutomatically
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df1f47a0a2effe74488d5da197295a19, type: 3}
