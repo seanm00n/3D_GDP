@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class WallCtrl : MonoBehaviour
 {
+    public GameObject sparkEffect;
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.collider.tag == "Bullet")
         {
-            Debug.Log("Crash");
+            Instantiate(sparkEffect, collision.transform.position, Quaternion.identity);
             Destroy(collision.gameObject);
         }
     }
