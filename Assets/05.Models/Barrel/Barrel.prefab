@@ -93,6 +93,9 @@ GameObject:
   m_Component:
   - component: {fileID: 400002}
   - component: {fileID: 11100000}
+  - component: {fileID: 1828651858}
+  - component: {fileID: 1828651859}
+  - component: {fileID: 1828651862}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
@@ -107,7 +110,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100002}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.801896, y: 6.159115, z: -21.852272}
   m_LocalScale: {x: 0.28014052, y: 0.28014052, z: 0.28014052}
   m_ConstrainProportionsScale: 0
@@ -131,3 +134,46 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!54 &1828651858
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100002}
+  serializedVersion: 2
+  m_Mass: 20
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &1828651859
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2.2
+  m_Height: 7
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.459317, z: 0}
+--- !u!114 &1828651862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51aed69943b10f14ca9e0ca6b9d87c4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expEffect: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}

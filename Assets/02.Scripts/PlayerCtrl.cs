@@ -35,7 +35,7 @@ public class PlayerCtrl : MonoBehaviour
         y = 0.0f;
 
         moveSpeed = 10.0f;
-        rotSpeed = 100.0f;
+        rotSpeed = 1000.0f;
     }
 
     void Start()
