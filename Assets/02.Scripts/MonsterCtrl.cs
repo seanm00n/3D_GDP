@@ -7,39 +7,66 @@ using UnityEngineInternal;
 
 public class MonsterCtrl : MonoBehaviour
 {
+    public enum MonsterState { idle, trace, attack, die };
+    public MonsterState monsterState = MonsterState.idle;
     private Transform monsterTr;
     private Transform playerTr;
     private NavMeshAgent nvAgent;
     private Animator animator;
-    public float sightDistance;
-    private float distance;
+
+    public float traceDist = 10.0f;
+    public float attackDist = 2.0f;
+    private bool isDie = false;
+    
     void Start()
     {
         monsterTr = gameObject.GetComponent<Transform>(); //현재 객체의 tr
         playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>(); //태그로 플레이어 tr 검색
         nvAgent = gameObject.GetComponent<NavMeshAgent>(); //현재 객체의 nav
         animator = gameObject.GetComponent<Animator>();
-        sightDistance = 10.0f;
+
+        StartCoroutine(this.CheckMonsterState());
+        StartCoroutine(this.MonsterAction());
     }
-    void Update()
+    IEnumerator CheckMonsterState()
     {
-        Trace(); 
-        
-    }
-    void Trace()
-    {
-        distance = Vector3.Distance(monsterTr.position, playerTr.position);
-        if(distance < sightDistance)
+        while (!isDie) //살아 있는 동안
         {
-            Debug.Log(distance);
-            nvAgent.destination = playerTr.position;
-            animator.SetBool("IsTrace", true);
+            yield return new WaitForSeconds(0.2f); //0.2초 멈추고 아래 실행
+            float dist = Vector3.Distance(playerTr.position, monsterTr.position);
+            if(dist <= attackDist)
+            {
+                monsterState = MonsterState.attack;
+            }else if(dist <= traceDist)
+            {
+                monsterState = MonsterState.trace;
+            }else{
+                monsterState = MonsterState.idle;
+            }
         }
-        else
+    }
+    IEnumerator MonsterAction()
+    {
+        while (!isDie)
         {
-            nvAgent.destination = monsterTr.position; //본인 자리로 하면 멈추는 효과
-            animator.SetBool("IsTrace", false);
-        }     
-        // TIP.거리로 계산하는 것이 리소스 적게 먹음
+            switch (monsterState) { 
+                case MonsterState.idle:
+                    nvAgent.isStopped = true;
+                    animator.SetBool("IsTrace", false);
+                    break;
+                case MonsterState.trace:
+                    nvAgent.destination = playerTr.position;
+                    nvAgent.isStopped = false;
+                    animator.SetBool("IsAttack", false);
+                    animator.SetBool("IsTrace", true);
+                    break;
+                case MonsterState.attack:
+                    nvAgent.isStopped = true;
+                    animator.SetBool("IsAttack", true);
+                    break;
+            }
+            yield return null;
+        }
     }
 }
+ 
