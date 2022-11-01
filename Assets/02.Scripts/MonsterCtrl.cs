@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngineInternal;
@@ -66,6 +67,15 @@ public class MonsterCtrl : MonoBehaviour
                     break;
             }
             yield return null;
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Bullet")
+        {
+            Destroy(collision.gameObject);
+            animator.SetTrigger("IsHit");
+            Debug.Log("Hit");
         }
     }
 }
