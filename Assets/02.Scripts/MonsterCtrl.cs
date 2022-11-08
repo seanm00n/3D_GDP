@@ -17,6 +17,11 @@ public class MonsterCtrl : MonoBehaviour
     public float traceDist = 10.0f;
     public float attackDist = 2.0f;
     private bool isDie = false;
+
+    public GameObject bloodEffect;
+    public GameObject bloodDecal;
+
+    private int hp = 100;
     
     void Start()
     {
@@ -67,6 +72,33 @@ public class MonsterCtrl : MonoBehaviour
             }
             yield return null;
         }
+    }
+    void OnPlayerDie()
+    {
+        StopAllCoroutines();
+        nvAgent.isStopped = true;
+        animator.SetTrigger("IsPlayerDie");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Bullet")
+        {
+            Destroy(collision.gameObject);
+            hp -= collision.gameObject.GetComponent<BulletCtrl>().damage;
+            if(hp <= 0)
+            {
+                MonsterDie();
+            }
+            else
+            {
+                animator.SetTrigger("IsHit");
+            }
+        }
+    }
+    void MonsterDie()
+    {
+
     }
 }
  

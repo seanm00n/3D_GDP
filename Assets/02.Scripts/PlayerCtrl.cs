@@ -10,6 +10,7 @@ public class Anim {
     public AnimationClip runBackward;
     public AnimationClip runRight;
     public AnimationClip runLeft;
+    //클래스 하나 더 만드는 방법도 있음
 }
 
 public class PlayerCtrl : MonoBehaviour
@@ -20,6 +21,7 @@ public class PlayerCtrl : MonoBehaviour
     private float y;
     private float moveSpeed;
     private float rotSpeed;
+    public int hp = 100;
 
     private Animation _animation;
     public Anim anim;
@@ -88,6 +90,29 @@ public class PlayerCtrl : MonoBehaviour
         else
         {
             _animation.CrossFade(anim.Idle.name, 0.3f);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Punch")
+        {
+            hp -= 10;
+            Debug.Log("Player HP = " + hp.ToString());
+            if(hp <= 0)
+            {
+                PlayerDie();
+            }
+        }
+    }
+    void PlayerDie()
+    {
+        Debug.Log("Player Die!!");
+
+        GameObject[] monsters = GameObject.FindGameObjectsWithTag("Monster");
+
+        foreach(GameObject monster in monsters) //foreach 성능문제 해결
+        {
+            monster.SendMessage("OnPlayerDie", SendMessageOptions.DontRequireReceiver);//
         }
     }
 }
