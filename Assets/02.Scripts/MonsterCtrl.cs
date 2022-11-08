@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngineInternal;
@@ -18,6 +20,10 @@ public class MonsterCtrl : MonoBehaviour
     public float traceDist = 10.0f;
     public float attackDist = 2.0f;
     private bool isDie = false;
+
+    public GameObject bloodEffect;
+    public GameObject bloodDecal;
+    private int hp = 100;
     
     void Start()
     {
@@ -74,9 +80,43 @@ public class MonsterCtrl : MonoBehaviour
         if (collision.gameObject.tag == "Bullet")
         {
             Destroy(collision.gameObject);
-            animator.SetTrigger("IsHit");
-            Debug.Log("Hit");
+            hp -= collision.gameObject.GetComponent<BulletCtrl>().damage;
+
+            if(hp <= 0)
+            {
+                MonsterDie();
+            }
+            else
+            {
+                animator.SetTrigger("IsHit");
+            }
         }
+    }
+    void CreateBloodEffeect(Vector3 pos)
+    {
+
+    }
+    void OnPlayerDie()
+    {
+        StopAllCoroutines();
+        nvAgent.isStopped = true;
+        animator.SetTrigger("IsPlayerDie");
+    }
+
+    void MonsterDie() {
+        StopAllCoroutines();
+        isDie = true;
+        monsterState = MonsterState.die;
+        nvAgent.isStopped = true;
+        animator.SetTrigger("IsDie");
+
+        gameObject.GetComponentInChildren<CapsuleCollider>().enabled = false;
+
+        foreach(Collider coll in gameObject.GetComponentsInChildren<SphereCollider>())
+        {
+            coll.enabled = false;
+        }
+        Destroy(gameObject, 5f);
     }
 }
  
