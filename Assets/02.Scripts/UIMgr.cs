@@ -8,7 +8,6 @@ public class UIMgr : MonoBehaviour
     public void OnClickStartBtn()
     {
         SceneManager.LoadScene("scPlay");
-        Debug.Log("Click Button");
     }
 }
 

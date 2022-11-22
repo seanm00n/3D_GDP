@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Anim { 
@@ -23,6 +25,9 @@ public class PlayerCtrl : MonoBehaviour
     private float rotSpeed;
     public int hp = 100;
 
+    private int initHp = 100;
+    public Image imgHpBar;
+
     private Animation _animation;
     public Anim anim;
     
@@ -38,6 +43,8 @@ public class PlayerCtrl : MonoBehaviour
 
         moveSpeed = 10.0f;
         rotSpeed = 1000.0f;
+
+        initHp = hp;
     }
 
     void Start()
@@ -97,6 +104,7 @@ public class PlayerCtrl : MonoBehaviour
         if(other.gameObject.tag == "Punch")
         {
             hp -= 10;
+            imgHpBar.fillAmount = (float)hp / (float)initHp;
             Debug.Log("Player HP = " + hp.ToString());
             if(hp <= 0)
             {
@@ -114,5 +122,7 @@ public class PlayerCtrl : MonoBehaviour
         {
             monster.SendMessage("OnPlayerDie", SendMessageOptions.DontRequireReceiver);//
         }
+
+        SceneManager.LoadScene("scMain");
     }
 }

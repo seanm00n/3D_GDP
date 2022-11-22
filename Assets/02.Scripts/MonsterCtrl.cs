@@ -20,6 +20,7 @@ public class MonsterCtrl : MonoBehaviour
     public float traceDist = 10.0f;
     public float attackDist = 2.0f;
     private bool isDie = false;
+    private GameUI gameUI;
 
     public GameObject bloodEffect;
     public GameObject bloodDecal;
@@ -31,6 +32,8 @@ public class MonsterCtrl : MonoBehaviour
         playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>(); //태그로 플레이어 tr 검색
         nvAgent = gameObject.GetComponent<NavMeshAgent>(); //현재 객체의 nav
         animator = gameObject.GetComponent<Animator>();
+
+        gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
 
         StartCoroutine(this.CheckMonsterState());
         StartCoroutine(this.MonsterAction());
@@ -116,6 +119,7 @@ public class MonsterCtrl : MonoBehaviour
         {
             coll.enabled = false;
         }
+        gameUI.DispScore(50);
         Destroy(gameObject, 5f);
     }
 }
