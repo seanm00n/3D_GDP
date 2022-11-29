@@ -25,7 +25,7 @@ public class MonsterCtrl : MonoBehaviour
     public GameObject bloodEffect;
     public GameObject bloodDecal;
     private int hp = 100;
-    
+
     void Start()
     {
         monsterTr = gameObject.GetComponent<Transform>(); //현재 객체의 tr
@@ -44,13 +44,16 @@ public class MonsterCtrl : MonoBehaviour
         {
             yield return new WaitForSeconds(0.2f); //0.2초 멈추고 아래 실행
             float dist = Vector3.Distance(playerTr.position, monsterTr.position);
-            if(dist <= attackDist)
+            if (dist <= attackDist)
             {
                 monsterState = MonsterState.attack;
-            }else if(dist <= traceDist)
+            }
+            else if (dist <= traceDist)
             {
                 monsterState = MonsterState.trace;
-            }else{
+            }
+            else
+            {
                 monsterState = MonsterState.idle;
             }
         }
@@ -59,7 +62,8 @@ public class MonsterCtrl : MonoBehaviour
     {
         while (!isDie)
         {
-            switch (monsterState) { 
+            switch (monsterState)
+            {
                 case MonsterState.idle:
                     nvAgent.isStopped = true;
                     animator.SetBool("IsTrace", false);
@@ -84,8 +88,8 @@ public class MonsterCtrl : MonoBehaviour
         {
             Destroy(collision.gameObject);
             hp -= collision.gameObject.GetComponent<BulletCtrl>().damage;
-
-            if(hp <= 0)
+            CreateBloodEffeect(collision.transform.position);
+            if (hp <= 0)
             {
                 MonsterDie();
             }
@@ -97,7 +101,15 @@ public class MonsterCtrl : MonoBehaviour
     }
     void CreateBloodEffeect(Vector3 pos)
     {
+        GameObject blood1 = (GameObject)Instantiate(bloodEffect, pos, Quaternion.identity);
+        Destroy(blood1, 2f);
 
+        Vector3 decalPos = monsterTr.position + (Vector3.up * 0.05f);
+        Quaternion decalRot = Quaternion.Euler(90, 0, Random.Range(0, 360));
+        GameObject blood2 = (GameObject)Instantiate(bloodDecal, decalPos, decalRot);
+        float scale = Random.Range(1.5f, 3.5f);
+        blood2.transform.localScale = Vector3.one * scale;
+        Destroy(blood2, 5.0f);
     }
     void OnPlayerDie()
     {
@@ -106,7 +118,8 @@ public class MonsterCtrl : MonoBehaviour
         animator.SetTrigger("IsPlayerDie");
     }
 
-    void MonsterDie() {
+    void MonsterDie()
+    {
         StopAllCoroutines();
         isDie = true;
         monsterState = MonsterState.die;
@@ -115,7 +128,7 @@ public class MonsterCtrl : MonoBehaviour
 
         gameObject.GetComponentInChildren<CapsuleCollider>().enabled = false;
 
-        foreach(Collider coll in gameObject.GetComponentsInChildren<SphereCollider>())
+        foreach (Collider coll in gameObject.GetComponentsInChildren<SphereCollider>())
         {
             coll.enabled = false;
         }
@@ -123,4 +136,3 @@ public class MonsterCtrl : MonoBehaviour
         Destroy(gameObject, 5f);
     }
 }
- 
