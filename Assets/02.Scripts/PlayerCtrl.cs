@@ -12,6 +12,7 @@ public class Anim {
     public AnimationClip runBackward;
     public AnimationClip runRight;
     public AnimationClip runLeft;
+    
     //클래스 하나 더 만드는 방법도 있음
 }
 
@@ -24,13 +25,15 @@ public class PlayerCtrl : MonoBehaviour
     private float moveSpeed;
     private float rotSpeed;
     public int hp = 100;
+    bool isDie = false;
 
     private int initHp = 100;
     public Image imgHpBar;
 
-    private Animation _animation;
-    public Anim anim;
-    
+    /*    private Animation _animation;
+        public Anim anim;*/
+    private Animator animator;
+
 
     private Transform tr;
 
@@ -51,12 +54,12 @@ public class PlayerCtrl : MonoBehaviour
     {
         Init();
         tr = GetComponent<Transform>();
-        _animation  = GetComponentInChildren<Animation>();
-        _animation.clip = anim.Idle;
-        _animation.Play();
+        animator = GetComponent<Animator>();
     }
     void Update()
     {
+        if (isDie)
+            return;
         Init();
         h = Input.GetAxis("Horizontal");
         v = Input.GetAxis("Vertical");
@@ -79,24 +82,13 @@ public class PlayerCtrl : MonoBehaviour
 
         tr.Rotate(Vector3.up * Time.deltaTime * rotSpeed * Input.GetAxis("Mouse X"));
         //
-        if(v >= 0.1f)
+        if(moveDir.magnitude > 0)
         {
-            _animation.CrossFade(anim.runForward.name, 0.3f);
-        } else if(v <= -0.1f)
-        {
-            _animation.CrossFade(anim.runBackward.name, 0.3f);
-        }
-        else if(h >= 0.1f)
-        {
-            _animation.CrossFade(anim.runRight.name, 0.3f);
-        }
-        else if(h <= -0.1f)
-        {
-            _animation.CrossFade(anim.runLeft.name, 0.3f);
+            animator.SetFloat("Speed", 1.0f);
         }
         else
         {
-            _animation.CrossFade(anim.Idle.name, 0.3f);
+            animator.SetFloat("Speed", 0.0f);
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -110,12 +102,16 @@ public class PlayerCtrl : MonoBehaviour
             {
                 PlayerDie();
             }
+            else
+            {
+                animator.SetTrigger("Hit");
+            }
         }
     }
     void PlayerDie()
     {
         Debug.Log("Player Die!!");
-
+        isDie = true;
         GameObject[] monsters = GameObject.FindGameObjectsWithTag("Monster");
 
         foreach(GameObject monster in monsters) //foreach 성능문제 해결
